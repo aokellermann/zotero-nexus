@@ -4,7 +4,7 @@ declare const Zotero: IZotero
 
 class ToolsPane {
   public async updateAll(): Promise<void> {
-    Zotero.debug('scihub: updating all items')
+    Zotero.debug('nexus: updating all items')
 
     const allItems = await Zotero.Items.getAll()
     const items = allItems.filter(item => {
@@ -15,7 +15,7 @@ class ToolsPane {
       return isProcessable && isEditable
     }) as [ZoteroItem]
 
-    await Zotero.Scihub.updateItems(items)
+    await Zotero.Nexus.updateItems(items)
   }
 }
 

@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 
 <!DOCTYPE overlay
-          SYSTEM "chrome://zotero-scihub/locale/toolsPane.dtd">
+          SYSTEM "chrome://zotero-nexus/locale/toolsPane.dtd">
 
-<overlay id="zoteroscihub"
+<overlay id="zoteronexus"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
     <commandset id="mainCommandSet">
-        <command id="cmd_zotero_scihub_update_all"
-                 oncommand="Zotero.Scihub.ToolsPane.updateAll();" />
+        <command id="cmd_zotero_nexus_update_all"
+                 oncommand="Zotero.Nexus.ToolsPane.updateAll();" />
     </commandset>
 
     <menupopup id="menu_ToolsPopup">
         <menuseparator />
         <menuitem class="menuitem-iconic"
-                  image="chrome://zotero-scihub/skin/sci-hub-logo.svg"
-                  id="zotero-scihub-tools-updateall"
-                  label="&zotero.scihub.updateAll.label;"
-                  command="cmd_zotero_scihub_update_all" />
+                  image="chrome://zotero-nexus/skin/nexus-logo.svg"
+                  id="zotero-nexus-tools-updateall"
+                  label="&zotero.nexus.updateAll.label;"
+                  command="cmd_zotero_nexus_update_all" />
     </menupopup>
 
-  <script src="chrome://zotero-scihub/content/webpack.js"/>
-  <script src="chrome://zotero-scihub/content/scihub.js"/>
+  <script src="chrome://zotero-nexus/content/webpack.js"/>
+  <script src="chrome://zotero-nexus/content/nexus.js"/>
 </overlay>

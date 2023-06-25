@@ -1,29 +1,29 @@
 <?xml version="1.0"?>
 
 <!DOCTYPE overlay
-          SYSTEM "chrome://zotero-scihub/locale/itemPane.dtd">
+          SYSTEM "chrome://zotero-nexus/locale/itemPane.dtd">
 
-<overlay id="zoteroscihub"
+<overlay id="zoteronexus"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
     <popup id="zotero-collectionmenu">
         <menuseparator />
         <menuitem class="menuitem-iconic"
-                  image="chrome://zotero-scihub/skin/sci-hub-logo.svg"
-                  id="zotero-collectionmenu-scihub"
-                  label="&zotero.scihub.updateCollection.label;"
-                  oncommand="Zotero.Scihub.ItemPane.updateSelectedEntity()" />
+                  image="chrome://zotero-nexus/skin/nexus-logo.svg"
+                  id="zotero-collectionmenu-nexus"
+                  label="&zotero.nexus.updateCollection.label;"
+                  oncommand="Zotero.Nexus.ItemPane.updateSelectedEntity()" />
     </popup>
 
     <popup id="zotero-itemmenu">
         <menuseparator />
         <menuitem class="menuitem-iconic"
-                  image="chrome://zotero-scihub/skin/sci-hub-logo.svg"
-                  id="zotero-itemmenu-scihub"
-                  label="&zotero.scihub.update.label;"
-                  oncommand="Zotero.Scihub.ItemPane.updateSelectedItems()" />
+                  image="chrome://zotero-nexus/skin/nexus-logo.svg"
+                  id="zotero-itemmenu-nexus"
+                  label="&zotero.nexus.update.label;"
+                  oncommand="Zotero.Nexus.ItemPane.updateSelectedItems()" />
     </popup>
 
-  <script src="chrome://zotero-scihub/content/webpack.js"/>
-  <script src="chrome://zotero-scihub/content/scihub.js"/>
+  <script src="chrome://zotero-nexus/content/webpack.js"/>
+  <script src="chrome://zotero-nexus/content/nexus.js"/>
 </overlay>

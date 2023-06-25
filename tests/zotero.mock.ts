@@ -5,7 +5,7 @@ import { spy } from 'sinon'
 const progressWindowSpy = spy()
 
 const Zotero: IZotero = new class {
-  public Scihub
+  public Nexus
 
   public debug(_msg: string) { return }
   public logError(_err: Error | string) { return }

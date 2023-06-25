@@ -1,12 +1,12 @@
 {
-  "name": "zotero-scihub",
-  "version": "1.4.4",
-  "description": "Download papers and books by DOI from Sci-Hub",
+  "name": "zotero-nexus",
+  "version": "0.1.0",
+  "description": "Access scientific literature using standard template construct, an IPFS-backed website for nexus search",
   "scripts": {
     "lint": "eslint . --ext .ts --cache --cache-location .eslintcache/",
     "prebuild": "npm run lint",
     "build": "tsc --noEmit && node esbuild.js",
-    "postbuild": "zotero-plugin-zipup build zotero-scihub",
+    "postbuild": "zotero-plugin-zipup build zotero-nexus",
     "release": "zotero-plugin-release",
     "postversion": "git push --follow-tags",
     "test": "nyc mocha -r ts-node/register 'tests/**/*.ts'",
@@ -14,21 +14,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ethanwillis/zotero-scihub.git"
+    "url": "https://github.com/aokellermann/zotero-nexus.git"
   },
   "author": {
-    "name": "ethanwillis",
-    "email": "example@example.com"
+    "name": "aokellermann",
+    "email": "aokellermann@gmail.com"
   },
   "bugs": {
-    "url": "https://github.com/ethanwillis/zotero-scihub/issues"
+    "url": "https://github.com/aokellermann/zotero-nexus/issues"
   },
-  "homepage": "https://github.com/ethanwillis/zotero-scihub",
+  "homepage": "https://github.com/aokellermann/zotero-nexus",
   "xpi": {
-    "name": "Sci-Hub Plugin for Zotero",
-    "updateLink": "https://github.com/ethanwillis/zotero-scihub/releases/download/v{version}/zotero-scihub-{version}.xpi",
-    "releaseURL": "https://github.com/ethanwillis/zotero-scihub/releases/download/release/",
-    "iconURL": "chrome://zotero-scihub/skin/sci-hub-logo.svg"
+    "name": "Nexus Plugin for Zotero",
+    "updateLink": "https://github.com/aokellermann/zotero-nexus/releases/download/v{version}/zotero-nexus-{version}.xpi",
+    "releaseURL": "https://github.com/aokellermann/zotero-nexus/releases/download/release/",
+    "iconURL": "chrome://zotero-nexus/skin/nexus-logo.svg"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",

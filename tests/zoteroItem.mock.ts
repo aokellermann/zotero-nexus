@@ -93,22 +93,6 @@ const DOIinUrlItem: ZoteroItem = new class {
   }
 }
 
-const captchaItem: ZoteroItem = new class {
-  public isRegularItem() { return true }
-  public isCollection() { return false }
-  public libraryID = 'regularItemLibraryID2'
-  public id = '7'
-  public getField(f: string): any {
-    switch (f) {
-      case 'title': return 'captchaItemTitle'
-      case 'DOI': return 'captcha'
-      case 'extra': return
-      case 'url': return
-      default: return
-    }
-  }
-}
-
 const unavailableItem: ZoteroItem = new class {
   public isRegularItem() { return true }
   public isCollection() { return false }
@@ -124,4 +108,4 @@ const unavailableItem: ZoteroItem = new class {
   }
 }
 
-export { regularItem1, regularItem2, collectionItem, itemWithoutDOI, DOIinExtraItem, DOIinUrlItem, captchaItem, unavailableItem }
+export { regularItem1, regularItem2, collectionItem, itemWithoutDOI, DOIinExtraItem, DOIinUrlItem, unavailableItem }

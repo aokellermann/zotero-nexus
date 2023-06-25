@@ -29,7 +29,7 @@ interface ProgressWindow {
 }
 
 interface IZotero {
-  Scihub: import('../content/scihub').Scihub
+  Nexus: import('../content/nexus').Nexus
 
   debug: (msg: string) => void
   logError: (err: Error | string) => void

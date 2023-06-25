@@ -11,7 +11,7 @@ async function build() {
     bundle: true,
     format: 'iife',
     target: ['firefox60'],
-    entryPoints: [ 'content/scihub.ts' ],
+    entryPoints: [ 'content/nexus.ts' ],
     outdir: 'build/content',
     banner: { js: 'if (!Zotero.TestZoteroPlugin) {\n' },
     footer: { js: '\n}' },

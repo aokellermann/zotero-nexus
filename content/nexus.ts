@@ -7,6 +7,10 @@ import { ZoteroUtil } from './zoteroUtil'
 declare const Zotero: IZotero
 declare const window
 
+enum HttpCodes {
+  DONE = 200,
+}
+
 class ItemObserver implements ZoteroObserver {
   // Called when a new item is added to the library
   public async notify(event: string, _type: string, ids: [number], _extraData: Record<string, any>) {
@@ -21,8 +25,11 @@ class ItemObserver implements ZoteroObserver {
 
 class Nexus {
   // TOOD: only bulk-update items which are missing paper attachement
-  private static readonly CAR_URL = 'https://bafyb4iee27p2wdqsorvj7gquitwuti3sfeepdvx2p3feao2dqri37fm3yy.ipfs.dweb.link'
   private static readonly DEFAULT_AUTOMATIC_PDF_DOWNLOAD = true
+  private static readonly DEFAULT_IPFS_RPC_URL = new URL('http://127.0.0.1:5001')
+  private static readonly DEFAULT_IPFS_GATEWAY_URL = new URL('http://127.0.0.1:8080')
+  private static readonly INTERNET_IPFS_GATEWAY_URL = new URL('https://dweb.link')
+  private static readonly CAR_SUBDOMAIN = 'bafyb4iee27p2wdqsorvj7gquitwuti3sfeepdvx2p3feao2dqri37fm3yy'
   private observerId: number | null = null
   private initialized = false
   public ItemPane: ItemPane
@@ -35,9 +42,66 @@ class Nexus {
     this.ToolsPane = new ToolsPane()
   }
 
-  public getNexusUrl(doi: string): URL {
+  public getIpfsRpcUrl(): URL {
+    const setting = 'zoteronexus.ipfs_rpc_url'
+
+    if (Zotero.Prefs.get(setting) === undefined) {
+      Zotero.Prefs.set(setting, Nexus.DEFAULT_IPFS_RPC_URL.href)
+    }
+
+    return new URL(Zotero.Prefs.get(setting) as string)
+  }
+
+  public getLocalIpfsGatewayUrl(): URL {
+    const setting = 'zoteronexus.ipfs_gateway_url'
+
+    if (Zotero.Prefs.get(setting) === undefined) {
+      Zotero.Prefs.set(setting, Nexus.DEFAULT_IPFS_GATEWAY_URL.href)
+    }
+
+    let url = Zotero.Prefs.get(setting) as string
+    url = url.replace('127.0.0.1', 'localhost')
+    return new URL(url)
+  }
+
+  public async localGatewayAccessible(): Promise<boolean> {
+    const url = this.getIpfsRpcUrl()
+    url.pathname = 'api/v0/swarm/peers'
+
+    let xhr
+    try {
+      xhr = await Zotero.HTTP.request('POST', url.href, {
+        responseType: 'json',
+        timeout: 2500,
+        headers: {
+          Origin: url.origin,
+        },
+      })
+    } catch (err) {
+      Zotero.debug('local ipfs gateway unreachable')
+      return false
+    }
+
+    if (xhr.status === HttpCodes.DONE) {
+      const res = xhr.response
+      const peers = res.Peers.length
+      Zotero.debug(`ipfs peers: ${peers}`)
+      return peers > 0
+    }
+    Zotero.debug('local ipfs gateway unreachable')
+    return false
+  }
+
+  public getNexusUrl(doi: string, useLocalGateway: boolean): URL {
     Zotero.debug(`doi: ${doi}`)
-    return new URL(`${Nexus.CAR_URL}/${encodeURIComponent(encodeURIComponent(doi))}.pdf`)
+
+    const url = useLocalGateway ? this.getLocalIpfsGatewayUrl() : Nexus.INTERNET_IPFS_GATEWAY_URL
+    url.host = `${Nexus.CAR_SUBDOMAIN}.ipfs.${url.host}`
+    url.pathname = `${encodeURIComponent(encodeURIComponent(doi))}.pdf`
+
+    Zotero.debug(`url: ${url.href}`)
+
+    return url
   }
 
   public isAutomaticPdfDownload(): boolean {
@@ -62,13 +126,14 @@ class Nexus {
   }
 
   public async updateItems(items: ZoteroItem[]): Promise<void> {
+    const useLocalGateway = await this.localGatewayAccessible()
     // WARN: Sequentially go through items, parallel will fail due to rate-limiting
     for (const item of items) {
       // Skip items which are not processable
       if (!item.isRegularItem() || item.isCollection()) { continue }
 
       // Skip items without DOI or if URL generation had failed
-      const nexusUrl = this.generateNexusItemUrl(item)
+      const nexusUrl = this.generateNexusItemUrl(item, useLocalGateway)
       if (!nexusUrl) {
         ZoteroUtil.showPopup('DOI is missing', item.getField('title'), true)
         Zotero.debug(`nexus: failed to generate URL for "${item.getField('title')}"`)
@@ -123,10 +188,10 @@ class Nexus {
     return null
   }
 
-  private generateNexusItemUrl(item: ZoteroItem): URL | null {
+  private generateNexusItemUrl(item: ZoteroItem, useLocalGateway: boolean): URL | null {
     const doi = this.getDoi(item)
     if (doi) {
-      return this.getNexusUrl(doi)
+      return this.getNexusUrl(doi, useLocalGateway)
     }
     return null
   }

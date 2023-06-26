@@ -5,7 +5,11 @@ declare const Zotero: IZotero
 
 export abstract class ZoteroUtil {
   public static async attachRemotePDFToItem(pdfUrl: URL, item: ZoteroItem): Promise<void> {
-    const filename = UrlUtil.extractFileNameFromUrl(pdfUrl)
+    let filename = UrlUtil.extractFileNameFromUrl(pdfUrl)
+    if (filename) {
+      filename = filename.replace('.pdf', '')
+      filename = decodeURIComponent(decodeURIComponent(filename))
+    }
 
     // Download PDF and add as attachment
     const importOptions = {

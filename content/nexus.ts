@@ -127,31 +127,37 @@ class Nexus {
 
   public async updateItems(items: ZoteroItem[]): Promise<void> {
     const useLocalGateway = await this.localGatewayAccessible()
-    // WARN: Sequentially go through items, parallel will fail due to rate-limiting
-    for (const item of items) {
-      // Skip items which are not processable
-      if (!item.isRegularItem() || item.isCollection()) { continue }
 
-      // Skip items without DOI or if URL generation had failed
-      const nexusUrl = this.generateNexusItemUrl(item, useLocalGateway)
-      if (!nexusUrl) {
-        ZoteroUtil.showPopup('DOI is missing', item.getField('title'), true)
-        Zotero.debug(`nexus: failed to generate URL for "${item.getField('title')}"`)
-        continue
-      }
-
-      try {
-        await this.updateItem(nexusUrl, item)
-      } catch (error) {
-        // Do not stop traversing items if PDF is missing for one of them
-        ZoteroUtil.showPopup('PDF not available', `Try again later.\n"${item.getField('title')}"`, true)
+    if (useLocalGateway) {
+      // if local gateway we don't care about rate limiting
+      await Promise.all(items.map(item => this.updateItem(item, useLocalGateway)))
+    } else {
+      // if internet gateway we care about rate limiting
+      for (const item of items) {
+        await this.updateItem(item, useLocalGateway)
       }
     }
   }
 
-  private async updateItem(nexusUrl: URL, item: ZoteroItem) {
-    ZoteroUtil.showPopup('Fetching PDF', item.getField('title'))
-    await ZoteroUtil.attachRemotePDFToItem(nexusUrl, item)
+  private async updateItem(item: ZoteroItem, useLocalGateway: boolean) {
+    // Skip items which are not processable
+    if (!item.isRegularItem() || item.isCollection()) return
+
+    // Skip items without DOI or if URL generation had failed
+    const nexusUrl = this.generateNexusItemUrl(item, useLocalGateway)
+    if (!nexusUrl) {
+      ZoteroUtil.showPopup('DOI is missing', item.getField('title'), true)
+      Zotero.debug(`nexus: failed to generate URL for "${item.getField('title')}"`)
+      return
+    }
+
+    try {
+      ZoteroUtil.showPopup('Fetching PDF', item.getField('title'))
+      await ZoteroUtil.attachRemotePDFToItem(nexusUrl, item)
+    } catch (error) {
+      // Do not stop traversing items if PDF is missing for one of them
+      ZoteroUtil.showPopup('PDF not available', `Try again later.\n"${item.getField('title')}"`, true)
+    }
   }
 
   private getDoi(item: ZoteroItem): string | null {

@@ -29,7 +29,7 @@ class Nexus {
   private static readonly DEFAULT_IPFS_RPC_URL = new URL('http://127.0.0.1:5001')
   private static readonly DEFAULT_IPFS_GATEWAY_URL = new URL('http://127.0.0.1:8080')
   private static readonly INTERNET_IPFS_GATEWAY_URL = new URL('https://dweb.link')
-  private static readonly CAR_SUBDOMAIN = 'bafyb4iee27p2wdqsorvj7gquitwuti3sfeepdvx2p3feao2dqri37fm3yy'
+  private static readonly HUB_DOMAIN = 'hub-standard--template--construct-org'
   private observerId: number | null = null
   private initialized = false
   public ItemPane: ItemPane
@@ -95,9 +95,9 @@ class Nexus {
   public getNexusUrl(doi: string, useLocalGateway: boolean): URL {
     Zotero.debug(`doi: ${doi}`)
 
-    const url = useLocalGateway ? this.getLocalIpfsGatewayUrl() : Nexus.INTERNET_IPFS_GATEWAY_URL
-    url.host = `${Nexus.CAR_SUBDOMAIN}.ipfs.${url.host}`
-    url.pathname = `${encodeURIComponent(encodeURIComponent(doi))}.pdf`
+    const host = useLocalGateway ? this.getLocalIpfsGatewayUrl() : Nexus.INTERNET_IPFS_GATEWAY_URL
+    const baseUrl = new URL(`${host.protocol}//${Nexus.HUB_DOMAIN}.ipns.${host.host}`)
+    const url = new URL(`${encodeURIComponent(encodeURIComponent(doi))}.pdf`, baseUrl)
 
     Zotero.debug(`url: ${url.href}`)
 

@@ -1,6 +1,4 @@
 import type {IZotero, ZoteroResolver, IServices} from '../typings/zotero'
-import {ItemPane} from './itemPane'
-import {ToolsPane} from './toolsPane'
 import {PrefPane} from './prefPane'
 
 import jspath from 'jspath'
@@ -12,15 +10,11 @@ declare const window
 
 class Nexus {
   private static readonly DEFAULT_AUTOMATIC_PDF_DOWNLOAD = true
-  public ItemPane: ItemPane
   public PrefPane: PrefPane
-  public ToolsPane: ToolsPane
   private oldPDFResolverFunction
 
   constructor() {
-    this.ItemPane = new ItemPane()
     this.PrefPane = new PrefPane()
-    this.ToolsPane = new ToolsPane()
   }
 
   public isAutomaticPdfDownload(): boolean {

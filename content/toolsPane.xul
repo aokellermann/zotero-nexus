@@ -6,20 +6,6 @@
 <overlay id="zoteronexus"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <commandset id="mainCommandSet">
-        <command id="cmd_zotero_nexus_update_all"
-                 oncommand="Zotero.Nexus.ToolsPane.updateAll();" />
-    </commandset>
-
-    <menupopup id="menu_ToolsPopup">
-        <menuseparator />
-        <menuitem class="menuitem-iconic"
-                  image="chrome://zotero-nexus/skin/nexus-logo.svg"
-                  id="zotero-nexus-tools-updateall"
-                  label="&zotero.nexus.updateAll.label;"
-                  command="cmd_zotero_nexus_update_all" />
-    </menupopup>
-
   <script src="chrome://zotero-nexus/content/webpack.js"/>
   <script src="chrome://zotero-nexus/content/nexus.js"/>
 </overlay>

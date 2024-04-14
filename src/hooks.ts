@@ -1,10 +1,11 @@
 import {
   Preferences,
-} from "./modules/examples";
+} from "./modules/preferences";
 import { config } from "../package.json";
 import { initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 import { createZToolkit } from "./utils/ztoolkit";
+import { Nexus } from "./modules/nexus";
 
 async function onStartup() {
   await Promise.all([
@@ -23,6 +24,7 @@ async function onStartup() {
   initLocale();
 
   Preferences.register();
+  Nexus.load()
 }
 
 async function onMainWindowLoad(win: Window): Promise<void> {

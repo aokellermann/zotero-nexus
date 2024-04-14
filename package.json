@@ -32,9 +32,11 @@
   },
   "homepage": "https://github.com/aokellermann/zotero-nexus",
   "dependencies": {
+    "jspath": "^0.4.0",
     "zotero-plugin-toolkit": "^2.3.15"
   },
   "devDependencies": {
+    "@types/jspath": "^0.4.2",
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "@typescript-eslint/parser": "^7.1.1",

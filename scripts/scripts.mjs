@@ -9,15 +9,6 @@ Services.obs.notifyObservers(null, "startupcache-invalidate", null);
 const { AddonManager } = ChromeUtils.import("resource://gre/modules/AddonManager.jsm");
 const addon = await AddonManager.getAddonByID("${addonID}");
 await addon.reload();
-const progressWindow = new Zotero.ProgressWindow({ closeOnClick: true });
-progressWindow.changeHeadline("${addonName} Hot Reload");
-progressWindow.progress = new progressWindow.ItemProgress(
-    "chrome://zotero/skin/tick.png",
-    "VERSION=${version}, BUILD=${new Date().toLocaleString()}. By zotero-plugin-toolkit"
-);
-progressWindow.progress.setProgress(100);
-progressWindow.show();
-progressWindow.startCloseTimer(5000);
 })()`;
 
 export const openDevToolScript = `

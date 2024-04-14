@@ -8,14 +8,17 @@ This is an add-on for [Zotero](https://www.zotero.org/) and [Juris-M](https://ju
 
 #### Install
 
-- Download the latest release (.xpi file) from the [Releases Page](https://github.com/aokellermann/zotero-nexus/releases)
-  _Note_ If you're using Firefox as your browser, right-click the xpi and select "Save As..."
+This plugin supports both the stable version (6) and the beta version (7) of Zotero! Plugin installation files don't
+work for both, so there are separate downloads depending on your Zotero version.
+If you are perusing the releases page, `0.x.x` releases are for Zotero 6 and `1.x.x` releases are for Zotero 7.
+
+Installation instructions:
+- If you are using Zotero 6 (stable version), right click [this link](https://github.com/aokellermann/zotero-nexus/releases/download/0.1.0-beta.3/zotero-nexus-0.1.0-beta.3.xpi), click "Save Link As" and save to your computer.
+- If you are using Zotero 7 (beta version), right click [this link](https://github.com/aokellermann/zotero-nexus/releases/download/1.0.0-beta.0/zotero-nexus-1.0.0-beta.0.xpi), click "Save Link As" and save to your computer.
 - In Zotero click "Tools" in the top menu bar and then click "Addons"
 - Go to the Extensions page and then click the gear icon in the top right.
 - Select Install Add-on from file.
 - Browse to where you downloaded the .xpi file and select it.
-- Restart Zotero, by clicking "restart now" in the extensions list where the
-  nexus plugin is now listed.
 
 #### Usage
 

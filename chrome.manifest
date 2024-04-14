@@ -1,6 +1,0 @@
-content zotero-nexus content/
-skin zotero-nexus default	skin/default/
-locale zotero-nexus en-US locale/en-US/
-
-overlay chrome://zotero/content/zoteroPane.xul chrome://zotero-nexus/content/toolsPane.xul
-overlay chrome://zotero/content/preferences/preferences.xul chrome://zotero-nexus/content/prefPane.xul

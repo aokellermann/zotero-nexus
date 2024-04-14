@@ -18,7 +18,6 @@
     "stop": "node scripts/stop.mjs",
     "lint": "prettier --write . && eslint . --ext .ts --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "release-it --only-version --preReleaseId=beta",
     "update-deps": "npm update --save"
   },
   "repository": {
@@ -46,7 +45,6 @@
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.1.1",
-    "release-it": "^17.0.1",
     "replace-in-file": "^7.0.2",
     "typescript": "^5.3.3",
     "zotero-types": "^1.3.10"
@@ -114,23 +112,5 @@
         }
       }
     ]
-  },
-  "release-it": {
-    "git": {
-      "tagName": "v${version}"
-    },
-    "npm": {
-      "publish": false
-    },
-    "github": {
-      "release": false,
-      "assets": [
-        "build/*.xpi"
-      ]
-    },
-    "hooks": {
-      "before:init": "npm run lint",
-      "after:bump": "npm run build"
-    }
   }
 }

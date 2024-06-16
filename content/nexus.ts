@@ -112,7 +112,7 @@ class Nexus {
                 selector: '#pdf',
                 attribute: 'src',
                 automatic:  Zotero.Prefs.get(setting) as boolean,
-                timeout: 30000,
+                timeout: 60000,
               })
             // Only include resolvers that have opted into automatic processing
             if (automatic) {

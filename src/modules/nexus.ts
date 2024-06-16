@@ -16,6 +16,7 @@ export class Nexus {
 
       const resolvers: any[] = [];
       let doi = item.getField("DOI") || item.getExtraField("DOI");
+      doi = doi.toString();
       doi = Zotero.Utilities.cleanDOI(doi) || doi;
 
       if (useDOI && doi) {
@@ -29,7 +30,7 @@ export class Nexus {
       }
 
       if (useURL) {
-        let url = item.getField("url");
+        let url = item.getField("url").toString();
         if (url) {
           url = Zotero.Utilities.cleanURL(url);
           if (url) {
@@ -43,7 +44,7 @@ export class Nexus {
 
       if (useOA && doi) {
         resolvers.push(async () => {
-          const urls = Zotero.Utilities.Internal.getOpenAccessPDFURLs(doi);
+          const urls = await Zotero.Utilities.Internal.getOpenAccessPDFURLs(doi);
           return urls.map(o => ({
             url: o.url,
             pageURL: o.pageURL,
@@ -85,7 +86,7 @@ export class Nexus {
                 selector: "#pdf",
                 attribute: "src",
                 automatic: Zotero.Prefs.get(setting) as boolean,
-                timeout: 30000
+                timeout: 60000
               });
             // Only include resolvers that have opted into automatic processing
             if (automatic) {
@@ -161,7 +162,7 @@ export class Nexus {
 
                     // Handle relative paths
                     val = Services.io.newURI(
-                      val, null, Services.io.newURI(url)
+                      val, undefined, Services.io.newURI(url)
                     ).spec;
 
                     return [{

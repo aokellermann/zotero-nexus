@@ -11,10 +11,16 @@ export class Preferences {
       image: `chrome://${config.addonRef}/content/icons/favicon.png`,
       defaultXUL: true,
     };
-    ztoolkit.PreferencePane.register(prefOptions);
+    Zotero.PreferencePanes.register(prefOptions);
 
-    if (getPref(`extensions.zotero.${config.addonRef}.automatic-pdf-download`) === undefined) {
-      setPref(`extensions.zotero.${config.addonRef}.automatic-pdf-download`, true)
+    if (
+      getPref(`extensions.zotero.${config.addonRef}.automatic-pdf-download`) ===
+      undefined
+    ) {
+      setPref(
+        `extensions.zotero.${config.addonRef}.automatic-pdf-download`,
+        true,
+      );
     }
   }
 }

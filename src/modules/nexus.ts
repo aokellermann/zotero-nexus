@@ -24,7 +24,7 @@ export class Nexus {
         if (doi) {
           resolvers.push({
             pageURL: `https://doi.org/${doi}`,
-            accessMethod: "doi"
+            accessMethod: "doi",
           });
         }
       }
@@ -36,7 +36,7 @@ export class Nexus {
           if (url) {
             resolvers.push({
               pageURL: url,
-              accessMethod: "url"
+              accessMethod: "url",
             });
           }
         }
@@ -44,13 +44,17 @@ export class Nexus {
 
       if (useOA && doi) {
         resolvers.push(async () => {
-          const urls = await Zotero.Utilities.Internal.getOpenAccessPDFURLs(doi);
-          return urls.map(o => ({
-            url: o.url,
-            pageURL: o.pageURL,
-            articleVersion: o.version,
-            accessMethod: "oa"
-          } as UrlResolver));
+          const urls =
+            await Zotero.Utilities.Internal.getOpenAccessPDFURLs(doi);
+          return urls.map(
+            (o) =>
+              ({
+                url: o.url,
+                pageURL: o.pageURL,
+                articleVersion: o.version,
+                accessMethod: "oa",
+              }) as UrlResolver,
+          );
         });
       }
 
@@ -77,20 +81,19 @@ export class Nexus {
               Zotero.Prefs.set(setting, true);
             }
 
-            customResolvers.push(
-              {
-                name: "Nexus",
-                method: "GET",
-                url: "https://hub.libstc.cc/{doi}.pdf",
-                mode: "pdf",
-                selector: "#pdf",
-                attribute: "src",
-                automatic: Zotero.Prefs.get(setting) as boolean,
-                timeout: 60000
-              });
+            customResolvers.push({
+              name: "Nexus",
+              method: "GET",
+              url: "https://hub.libstc.cc/{doi}.pdf",
+              mode: "pdf",
+              selector: "#pdf",
+              attribute: "src",
+              automatic: Zotero.Prefs.get(setting) as boolean,
+              timeout: 60000,
+            });
             // Only include resolvers that have opted into automatic processing
             if (automatic) {
-              customResolvers = customResolvers.filter(r => r.automatic);
+              customResolvers = customResolvers.filter((r) => r.automatic);
             }
 
             for (const resolver of customResolvers) {
@@ -107,7 +110,7 @@ export class Nexus {
                   index,
 
                   // JSON
-                  mappings
+                  mappings,
                 } = resolver;
                 let { url } = resolver;
                 if (!name) {
@@ -139,16 +142,18 @@ export class Nexus {
                     url,
                     {
                       responseType: mode === "json" ? "json" : "document",
-                      timeout
-                    }
+                      timeout,
+                    },
                   );
 
                   if (mode === "pdf") {
-                    return [{
-                      accessMethod: name,
-                      url,
-                      referrer: url
-                    }];
+                    return [
+                      {
+                        accessMethod: name,
+                        url,
+                        referrer: url,
+                      },
+                    ];
                   } else if (mode === "html") {
                     const doc = req.response;
                     const elem = index
@@ -162,14 +167,18 @@ export class Nexus {
 
                     // Handle relative paths
                     val = Services.io.newURI(
-                      val, undefined, Services.io.newURI(url)
+                      val,
+                      undefined,
+                      Services.io.newURI(url),
                     ).spec;
 
-                    return [{
-                      accessMethod: name,
-                      url: val,
-                      referrer: url
-                    }];
+                    return [
+                      {
+                        accessMethod: name,
+                        url: val,
+                        referrer: url,
+                      },
+                    ];
                   } else if (mode === "json") {
                     const json = req.response;
                     let results = apply(selector, json);
@@ -192,17 +201,16 @@ export class Nexus {
                       results = mappedResults;
                     } else {
                       results = results
-                        .filter(x => typeof x == "string")
-                        .map(x => ({ url: x }));
+                        .filter((x) => typeof x == "string")
+                        .map((x) => ({ url: x }));
                     }
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-                    return results.map(o => Object.assign(
-                      o,
-                      {
+                    return results.map((o) =>
+                      Object.assign(o, {
                         accessMethod: name,
-                        referrer: url
-                      } as UrlResolver
-                    ));
+                        referrer: url,
+                      } as UrlResolver),
+                    );
                   }
                 });
               } catch (e) {

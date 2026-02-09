@@ -1,6 +1,4 @@
-import {
-  Preferences,
-} from "./modules/preferences";
+import { Preferences } from "./modules/preferences";
 import { config } from "../package.json";
 import { initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
@@ -24,7 +22,7 @@ async function onStartup() {
   initLocale();
 
   Preferences.register();
-  Nexus.load()
+  Nexus.load();
 }
 
 async function onMainWindowLoad(win: Window): Promise<void> {
@@ -42,7 +40,7 @@ function onShutdown(): void {
   addon.data.dialog?.window?.close();
   // Remove addon object
   addon.data.alive = false;
-  delete Zotero[config.addonInstance];
+  delete (Zotero as any)[config.addonInstance];
 }
 
 /**

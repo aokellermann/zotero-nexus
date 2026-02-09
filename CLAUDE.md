@@ -21,6 +21,7 @@ No test framework is configured (`npm test` exits with error).
 ## Build Process
 
 The build (`scripts/build.mjs`) does:
+
 1. TypeScript type-checking (`tsc --noEmit`)
 2. Copies `addon/` templates to `build/addon/`, replacing `__variables__` from `package.json` config
 3. Processes locale FTL files (adds addon-specific prefixes)
@@ -43,6 +44,7 @@ The dev server (`npm start`) watches for changes and auto-reloads the extension 
 ### Core Logic
 
 **`src/modules/nexus.ts`** — Overrides `Zotero.Attachments.getPDFResolvers()` to return a resolver chain:
+
 1. **DOI resolver**: Direct `https://doi.org/{doi}` URL
 2. **URL resolver**: Item's URL field
 3. **OA resolver**: Zotero's open-access API (`getOpenAccessPDFURLs`)
@@ -67,4 +69,4 @@ Single toggle: "Automatic PDF Download" (`extensions.zotero.zoteronexus.automati
 - **tsconfig.json**: `strict: true`, target ES2016, CommonJS modules
 - **ESLint**: `@typescript-eslint/recommended` + prettier; `no-explicit-any` and `no-unused-vars` disabled
 - **Prettier**: 80 char width, 2-space tabs, LF endings
-- **Zotero compatibility**: 6.999–7.0.* (manifest.json)
+- **Zotero compatibility**: 6.999–7.0.\* (manifest.json)
